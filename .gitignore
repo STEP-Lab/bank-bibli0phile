@@ -14,3 +14,4 @@ library/build
 library/out
 library/.settings
 *.iml
+bin/
