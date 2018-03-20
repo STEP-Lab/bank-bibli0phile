@@ -20,4 +20,9 @@ public class Account {
     return accountNumber;
   }
   
+  
+  public double debit(double amount) {
+    balance -= amount;
+    return balance;
+  }
 }

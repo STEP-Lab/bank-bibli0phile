@@ -12,13 +12,13 @@ public class AccountTest {
   
   @Before
   public void setUp() throws MinimumBalanceException {
-    account = new Account("1234", 1000.00);
+    account = new Account("1234", 3000.00);
   
   }
   
   @Test
   public void checkBalance(){
-    assertThat(account.getBalance(),is(1000.00));
+    assertThat(account.getBalance(),is(3000.00));
   }
   
   @Test
@@ -29,5 +29,11 @@ public class AccountTest {
   @Test (expected = MinimumBalanceException.class)
   public void checkMinimumBalance() throws MinimumBalanceException {
     new Account("1245",200);
+  }
+  
+  @Test
+  public void checkWithdrawBalance() {
+    account.debit(500);
+    assertThat(account.getBalance(),is(2500.0));
   }
 }
