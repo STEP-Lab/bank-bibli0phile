@@ -31,4 +31,9 @@ public class Account {
     balance -= amount;
     return balance;
   }
+  
+  public double credit(double amount) {
+    balance += amount;
+    return balance;
+  }
 }

@@ -36,10 +36,16 @@ public class AccountTest {
   public void checkWithdrawBalance() throws MinimumBalanceException {
     assertThat(account.debit(500),is(2500.0));
     account.debit(2000);
+    assertThat(account.debit(500),is(2000.0));
   }
   
   @Test (expected = InvalidAccountNumberException.class)
   public void checkInvalidAccountNumber() throws MinimumBalanceException, InvalidAccountNumberException {
     new Account("12-5678",78943.7);
+  }
+  
+  @Test
+  public void checkDepositBalance() {
+    assertThat(account.credit(1000),is(4000.0));
   }
 }
