@@ -4,7 +4,10 @@ public class Account {
   private final String accountNumber;
   private double balance;
   
-  public Account(String accountNumber, double balance) throws MinimumBalanceException {
+  public Account(String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
+    if(!accountNumber.matches("^\\d{4}-\\d{4}$")){
+      throw new InvalidAccountNumberException();
+    }
     this.accountNumber = accountNumber;
     if(balance<1000){
       throw new MinimumBalanceException();
@@ -21,7 +24,10 @@ public class Account {
   }
   
   
-  public double debit(double amount) {
+  public double debit(double amount) throws MinimumBalanceException {
+    if(getBalance() - amount <1000) {
+      throw new MinimumBalanceException();
+    }
     balance -= amount;
     return balance;
   }
