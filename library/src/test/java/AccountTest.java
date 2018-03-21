@@ -23,11 +23,6 @@ public class AccountTest {
   }
   
   @Test
-  public void checkAccountNumber() {
-    assertThat(account.getAccountNumber(),is("1234-4567"));
-  }
-  
-  @Test
   public void checkAccountHolder() {
     assertThat(account.getAccountHolder(),is("ketan"));
   }
@@ -38,20 +33,20 @@ public class AccountTest {
   }
   
   @Test (expected = MinimumBalanceException.class)
-  public void checkWithdrawBalance() throws MinimumBalanceException {
+  public void checkIfWithdrawIsAllowedIfBalanceIsGreaterThanMinimum() throws MinimumBalanceException {
     assertThat(account.debit(500),is(2500.0));
     account.debit(2000);
     assertThat(account.debit(500),is(2000.0));
-  }
-  
-  @Test (expected =  InvalidAccountNumberException.class)
-  public void checkInvalidAccountNumber() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account("ketan","12-5678",78943.7);
   }
   
   @Test (expected = MinimumBalanceException.class)
   public void checkDepositBalance() throws MinimumBalanceException {
     assertThat(account.credit(1000),is(4000.0));
     account.credit(-1000);
+  }
+  
+  @Test
+  public void checkSummary() {
+    assertThat(account.getSummary(),is("Account{accountNumber='1234-4567', accountHolder='ketan', balance=3000.0}"));
   }
 }

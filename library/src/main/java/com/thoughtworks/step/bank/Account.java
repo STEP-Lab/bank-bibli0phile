@@ -1,5 +1,7 @@
 package com.thoughtworks.step.bank;
 
+import java.util.Objects;
+
 public class Account {
   private final String accountNumber;
   private final String accountHolder;
@@ -7,9 +9,7 @@ public class Account {
   
   public Account(String accountHolder,String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
     this.accountHolder = accountHolder;
-    if(!accountNumber.matches("^\\d{4}-\\d{4}$")){
-      throw new InvalidAccountNumberException();
-    }
+    
     this.accountNumber = accountNumber;
     if(!validAmountForDebit(balance)){
       throw new MinimumBalanceException("Insufficient minimum balance!");
@@ -30,10 +30,7 @@ public class Account {
     return balance;
   }
   
-  public String getAccountNumber() {
-    return accountNumber;
-  }
-  
+
   public String getAccountHolder() {
     return accountHolder;
   }
@@ -58,4 +55,13 @@ public class Account {
     throw new MinimumBalanceException("Invalid credit request!");
   }
   
+  public String getSummary() {
+    return "Account{" +
+            "accountNumber='" + accountNumber + '\'' +
+            ", accountHolder='" + accountHolder + '\'' +
+            ", balance=" + balance +
+            '}';
+  }
+  
+ 
 }

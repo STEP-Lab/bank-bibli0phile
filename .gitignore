@@ -5,7 +5,7 @@ build/
 gradle/
 gradlew
 gradlew.bat
-.gradle
+.gradle/
 .project
 application/build
 application/out
