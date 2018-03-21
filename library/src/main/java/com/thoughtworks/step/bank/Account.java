@@ -2,17 +2,28 @@ package com.thoughtworks.step.bank;
 
 public class Account {
   private final String accountNumber;
+  private final String accountHolder;
   private double balance;
   
-  public Account(String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
+  public Account(String accountHolder,String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
+    this.accountHolder = accountHolder;
     if(!accountNumber.matches("^\\d{4}-\\d{4}$")){
       throw new InvalidAccountNumberException();
     }
     this.accountNumber = accountNumber;
-    if(balance<1000){
-      throw new MinimumBalanceException();
+    if(!validAmountForDebit(balance)){
+      throw new MinimumBalanceException("Insufficient minimum balance!");
     }
     this.balance = balance;
+  }
+  
+  private boolean canDebit(double amount){
+    double balanceAfter = getBalance()-amount;
+    return validAmountForDebit(balanceAfter);
+  }
+  
+  private boolean validAmountForDebit(double balance) {
+    return balance > 1000;
   }
   
   public double getBalance() {
@@ -23,17 +34,28 @@ public class Account {
     return accountNumber;
   }
   
+  public String getAccountHolder() {
+    return accountHolder;
+  }
   
   public double debit(double amount) throws MinimumBalanceException {
-    if(getBalance() - amount <1000) {
-      throw new MinimumBalanceException();
+    if(canDebit(amount)) {
+      balance -= amount;
+      return balance;
     }
-    balance -= amount;
-    return balance;
+    throw new MinimumBalanceException("Cannot process your request due to minimum balance!");
   }
   
-  public double credit(double amount) {
-    balance += amount;
-    return balance;
+  private boolean canCredit(double amount){
+    return amount > 0;
   }
+  
+  public double credit(double amount) throws MinimumBalanceException {
+    if(canCredit(amount)) {
+      balance += amount;
+      return balance;
+    }
+    throw new MinimumBalanceException("Invalid credit request!");
+  }
+  
 }

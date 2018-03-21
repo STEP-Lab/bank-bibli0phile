@@ -13,7 +13,7 @@ public class AccountTest {
   
   @Before
   public void setUp() throws MinimumBalanceException, InvalidAccountNumberException {
-    account = new Account("1234-4567", 3000.00);
+    account = new Account("ketan","1234-4567", 3000.00);
   
   }
   
@@ -27,9 +27,14 @@ public class AccountTest {
     assertThat(account.getAccountNumber(),is("1234-4567"));
   }
   
+  @Test
+  public void checkAccountHolder() {
+    assertThat(account.getAccountHolder(),is("ketan"));
+  }
+  
   @Test (expected = MinimumBalanceException.class)
   public void checkMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account("1245-7865",200);
+    new Account("ketan","1245-7865",200);
   }
   
   @Test (expected = MinimumBalanceException.class)
@@ -39,13 +44,14 @@ public class AccountTest {
     assertThat(account.debit(500),is(2000.0));
   }
   
-  @Test (expected = InvalidAccountNumberException.class)
+  @Test (expected =  InvalidAccountNumberException.class)
   public void checkInvalidAccountNumber() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account("12-5678",78943.7);
+    new Account("ketan","12-5678",78943.7);
   }
   
-  @Test
-  public void checkDepositBalance() {
+  @Test (expected = MinimumBalanceException.class)
+  public void checkDepositBalance() throws MinimumBalanceException {
     assertThat(account.credit(1000),is(4000.0));
+    account.credit(-1000);
   }
 }
