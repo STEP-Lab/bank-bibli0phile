@@ -1,5 +1,5 @@
-import com.thoughtworks.step.bank.AccountNumber;
-import com.thoughtworks.step.bank.InvalidAccountNumberException;
+package com.thoughtworks.step.bank;
+
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

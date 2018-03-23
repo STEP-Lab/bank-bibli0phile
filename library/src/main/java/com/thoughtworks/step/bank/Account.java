@@ -1,6 +1,5 @@
 package com.thoughtworks.step.bank;
 
-import java.util.Objects;
 
 public class Account {
   private final String accountNumber;
