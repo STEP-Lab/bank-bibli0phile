@@ -3,7 +3,10 @@ package com.thoughtworks.step.bank;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertThat;
 
 public class AccountTest {
@@ -11,8 +14,8 @@ public class AccountTest {
   private Account account;
   
   @Before
-  public void setUp() throws MinimumBalanceException, InvalidAccountNumberException {
-    account = new Account("ketan","1234-4567", 3000.00);
+  public void setUp() throws MinimumBalanceException{
+    account = Account.createAccount("ketan","1234-4567", 3000.00);
   
   }
   
@@ -27,8 +30,8 @@ public class AccountTest {
   }
   
   @Test (expected = MinimumBalanceException.class)
-  public void checkMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account("ketan","1245-7865",200);
+  public void checkMinimumBalance() throws MinimumBalanceException{
+    Account.createAccount("ketan","1245-7865",200);
   }
   
   @Test (expected = MinimumBalanceException.class)
@@ -47,5 +50,17 @@ public class AccountTest {
   @Test
   public void checkSummary() {
     assertThat(account.getSummary(),is("Account{accountNumber='1234-4567', accountHolder='ketan', balance=3000.0}"));
+  }
+  
+  @Test
+  public void checkCreditTransaction() throws MinimumBalanceException {
+    account.credit(10000);
+    assertThat(account.getAllTransactions(),hasItem(new CreditTransaction(new Date(),10000,"1234-4567")));
+  }
+  
+  @Test
+  public void checkDebitTransaction() throws MinimumBalanceException {
+    account.debit(1000);
+    assertThat(account.getAllTransactions(),hasItem(new DebitTransaction(new Date(),1000,"1234-4567")));
   }
 }

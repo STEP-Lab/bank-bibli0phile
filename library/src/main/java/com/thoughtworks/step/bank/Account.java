@@ -1,19 +1,26 @@
 package com.thoughtworks.step.bank;
 
 
+import java.util.ArrayList;
+
 public class Account {
   private final String accountNumber;
   private final String accountHolder;
+  private Transactions transactions;
   private double balance;
   
-  public Account(String accountHolder,String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
+  private Account(String accountHolder, String accountNumber, double balance){
     this.accountHolder = accountHolder;
-    
     this.accountNumber = accountNumber;
+    this.balance = balance;
+    this.transactions = new Transactions();
+  }
+  
+  public static Account createAccount(String accountHolder, String accountNumber, double balance) throws MinimumBalanceException {
     if(!validAmountForDebit(balance)){
       throw new MinimumBalanceException("Insufficient minimum balance!");
     }
-    this.balance = balance;
+    return new Account(accountHolder, accountNumber, balance);
   }
   
   private boolean canDebit(double amount){
@@ -21,7 +28,7 @@ public class Account {
     return validAmountForDebit(balanceAfter);
   }
   
-  private boolean validAmountForDebit(double balance) {
+  private static boolean validAmountForDebit(double balance) {
     return balance > 1000;
   }
   
@@ -37,6 +44,7 @@ public class Account {
   public double debit(double amount) throws MinimumBalanceException {
     if(canDebit(amount)) {
       balance -= amount;
+      transactions.debit(amount,accountNumber);
       return balance;
     }
     throw new MinimumBalanceException("Cannot process your request due to minimum balance!");
@@ -49,6 +57,7 @@ public class Account {
   public double credit(double amount) throws MinimumBalanceException {
     if(canCredit(amount)) {
       balance += amount;
+      transactions.credit(amount,accountNumber);
       return balance;
     }
     throw new MinimumBalanceException("Invalid credit request!");
@@ -62,5 +71,9 @@ public class Account {
             '}';
   }
   
- 
+  
+  public ArrayList<Transaction> getAllTransactions() {
+    return transactions.getAllTransactions();
+  }
+
 }

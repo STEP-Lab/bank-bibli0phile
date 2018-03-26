@@ -15,4 +15,8 @@ public class Transactions {
   public void credit(double amount, String to) {
     this.allTransactions.add(new CreditTransaction(amount,to));
   }
+  
+  public ArrayList<Transaction> getAllTransactions() {
+    return allTransactions;
+  }
 }

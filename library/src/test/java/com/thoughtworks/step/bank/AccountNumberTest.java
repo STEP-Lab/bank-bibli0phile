@@ -8,10 +8,10 @@ import static org.junit.Assert.assertThat;
 public class AccountNumberTest {
   @Test
   public void checkAccountNumber() throws InvalidAccountNumberException {
-    assertThat(new AccountNumber("1234-5678").getAccountNumber(),is("1234-5678"));
+    assertThat(AccountNumber.createAccountNumber("1234-5678").getAccountNumber(),is("1234-5678"));
   }
   @Test (expected =  InvalidAccountNumberException.class)
   public void checkInvalidAccountNumber() throws InvalidAccountNumberException {
-    new AccountNumber("12-5678");
+    AccountNumber.createAccountNumber("12-5678");
   }
 }
