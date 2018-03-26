@@ -4,19 +4,19 @@ package com.thoughtworks.step.bank;
 import java.util.ArrayList;
 
 public class Account {
-  private final String accountNumber;
+  private final AccountNumber accountNumber;
   private final String accountHolder;
   private Transactions transactions;
   private double balance;
   
-  private Account(String accountHolder, String accountNumber, double balance){
+  private Account(String accountHolder, AccountNumber accountNumber, double balance){
     this.accountHolder = accountHolder;
     this.accountNumber = accountNumber;
     this.balance = balance;
     this.transactions = new Transactions();
   }
   
-  public static Account createAccount(String accountHolder, String accountNumber, double balance) throws MinimumBalanceException {
+  public static Account createAccount(String accountHolder, AccountNumber accountNumber, double balance) throws MinimumBalanceException {
     if(!validAmountForDebit(balance)){
       throw new MinimumBalanceException("Insufficient minimum balance!");
     }
@@ -62,15 +62,6 @@ public class Account {
     }
     throw new MinimumBalanceException("Invalid credit request!");
   }
-  
-  public String getSummary() {
-    return "Account{" +
-            "accountNumber='" + accountNumber + '\'' +
-            ", accountHolder='" + accountHolder + '\'' +
-            ", balance=" + balance +
-            '}';
-  }
-  
   
   public ArrayList<Transaction> getAllTransactions() {
     return transactions.getAllTransactions();

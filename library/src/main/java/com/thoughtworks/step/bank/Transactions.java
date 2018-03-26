@@ -9,10 +9,10 @@ public class Transactions {
     this.allTransactions = new ArrayList<>();
   }
   
-  public void debit(double amount, String to) {
+  public void debit(double amount, AccountNumber to) {
     this.allTransactions.add(new DebitTransaction(amount,to));
   }
-  public void credit(double amount, String to) {
+  public void credit(double amount, AccountNumber to) {
     this.allTransactions.add(new CreditTransaction(amount,to));
   }
   

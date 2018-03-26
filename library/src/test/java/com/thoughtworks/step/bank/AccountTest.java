@@ -15,7 +15,7 @@ public class AccountTest {
   
   @Before
   public void setUp() throws MinimumBalanceException{
-    account = Account.createAccount("ketan","1234-4567", 3000.00);
+    account = Account.createAccount("ketan",new AccountNumber("1234-4567"), 3000.00);
   
   }
   
@@ -31,7 +31,7 @@ public class AccountTest {
   
   @Test (expected = MinimumBalanceException.class)
   public void checkMinimumBalance() throws MinimumBalanceException{
-    Account.createAccount("ketan","1245-7865",200);
+    Account.createAccount("ketan",new AccountNumber("1245-7865"),200);
   }
   
   @Test (expected = MinimumBalanceException.class)
@@ -48,19 +48,14 @@ public class AccountTest {
   }
   
   @Test
-  public void checkSummary() {
-    assertThat(account.getSummary(),is("Account{accountNumber='1234-4567', accountHolder='ketan', balance=3000.0}"));
-  }
-  
-  @Test
   public void checkCreditTransaction() throws MinimumBalanceException {
     account.credit(10000);
-    assertThat(account.getAllTransactions(),hasItem(new CreditTransaction(new Date(),10000,"1234-4567")));
+    assertThat(account.getAllTransactions(),hasItem(new CreditTransaction(new Date(),10000,new AccountNumber("1234-4567"))));
   }
   
   @Test
   public void checkDebitTransaction() throws MinimumBalanceException {
     account.debit(1000);
-    assertThat(account.getAllTransactions(),hasItem(new DebitTransaction(new Date(),1000,"1234-4567")));
+    assertThat(account.getAllTransactions(),hasItem(new DebitTransaction(new Date(),1000,new AccountNumber("1234-4567"))));
   }
 }
