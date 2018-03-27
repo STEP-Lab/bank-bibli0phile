@@ -47,6 +47,15 @@ public abstract class Transaction {
             "date=" + date +
             ", amount=" + amount +
             ", to=" + to +
+            ", type='" + type + '\'' +
             '}';
+  }
+  
+  public AccountNumber getSource() {
+    return to;
+  }
+  
+  public String getType() {
+    return type;
   }
 }

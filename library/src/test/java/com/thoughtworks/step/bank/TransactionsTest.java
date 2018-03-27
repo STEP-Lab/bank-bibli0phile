@@ -56,9 +56,48 @@ public class TransactionsTest {
   @Test
   public void filterByAmountLesserThan() {
     transactions.credit(1000,new AccountNumber("1234-1234"),"credit");
-    transactions.credit(1500,new AccountNumber("1234-1234"),"credit");
     transactions.credit(500,new AccountNumber("1234-1234"),"credit");
     Transactions filterTransactions = this.transactions.filterByAmountLesserThan(1000);
     assertThat(filterTransactions.getAllTransactions(),hasItems(new CreditTransaction(500,new AccountNumber("1234-1234"),"credit")));
   }
+  
+  @Test
+  public void filterAllCreditTransactions()  {
+    transactions.credit(1000,new AccountNumber("1234-1234"),"credit");
+    transactions.credit(1500,new AccountNumber("1234-1234"),"credit");
+    transactions.debit(500,new AccountNumber("1234-1234"),"debit");
+    Transactions filterTransactions = this.transactions.filterAllCreditTransactions();
+    assertThat(filterTransactions.getAllTransactions(),hasItems(new CreditTransaction(1000,new AccountNumber("1234-1234"),"credit"),new CreditTransaction(1500,new AccountNumber("1234-1234"),"credit")));
+  }
+  
+  @Test
+  public void filterAllDebitTransactions() {
+    transactions.credit(1000,new AccountNumber("1234-1234"),"credit");
+    transactions.credit(1500,new AccountNumber("1234-1234"),"credit");
+    transactions.debit(500,new AccountNumber("1234-1234"),"debit");
+    Transactions filterTransactions = this.transactions.filterAllDebitTransactions();
+    assertThat(filterTransactions.getAllTransactions(),hasItems(new DebitTransaction(500,new AccountNumber("1234-1234"),"debit")));
+  }
+  
+  @Test
+  public void checkWriteInCSV() throws IOException {
+    transactions.credit(1000,new AccountNumber("1234-1234"),"credit");
+    ArrayList<String> result = new ArrayList<>();
+    String headers = "date,type,amount,source";
+    CreditTransaction credit = new CreditTransaction(1000, new AccountNumber("1234-1234"), "credit");
+    CSVPrinter csvPrinter;
+    try (FileWriter fileWriter = new FileWriter("foo.csv") {
+      @Override
+      public Writer append(CharSequence csq) {
+        result.add((String) csq);
+        return this;
+      }
+    }) {
+      csvPrinter = new CSVPrinter(fileWriter, headers);
+    }
+    csvPrinter.writeHeaders();
+    transactions.writeOnTransactions(csvPrinter);
+    assertThat(result,hasItems(headers,String.valueOf(credit.getAmount()),credit.getType()));
+  }
+  
 }

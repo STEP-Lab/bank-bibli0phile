@@ -1,5 +1,6 @@
 package com.thoughtworks.step.bank;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,31 @@ public class Transactions {
   public void print(PrintWriter writer) {
     for (Transaction transaction : allTransactions) {
       writer.println(transaction.toString());
+    }
+  }
+  
+  public Transactions filterAllCreditTransactions() {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : allTransactions) {
+      if (transaction.getType().equals("credit")) {
+        transactions.allTransactions.add(transaction);
+      }
+    }
+    return transactions;
+  }
+  
+  public Transactions filterAllDebitTransactions() {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : allTransactions) {
+      if (transaction.getType().equals("debit")) {
+        transactions.allTransactions.add(transaction);
+      }
+    }
+    return transactions;
+  }
+  public void writeOnTransactions(CSVPrinter printer) throws IOException {
+    for(Transaction transaction : allTransactions){
+      printer.iterateOverTransactions(transaction);
     }
   }
 }
