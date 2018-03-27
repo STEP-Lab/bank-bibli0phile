@@ -44,7 +44,7 @@ public class Account {
   public double debit(double amount) throws MinimumBalanceException {
     if(canDebit(amount)) {
       balance -= amount;
-      transactions.debit(amount,accountNumber);
+      transactions.debit(amount,accountNumber,"debit");
       return balance;
     }
     throw new MinimumBalanceException("Cannot process your request due to minimum balance!");
@@ -57,7 +57,7 @@ public class Account {
   public double credit(double amount) throws MinimumBalanceException {
     if(canCredit(amount)) {
       balance += amount;
-      transactions.credit(amount,accountNumber);
+      transactions.credit(amount,accountNumber,"credit");
       return balance;
     }
     throw new MinimumBalanceException("Invalid credit request!");
