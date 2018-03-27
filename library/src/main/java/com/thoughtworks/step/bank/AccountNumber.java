@@ -32,4 +32,11 @@ public class AccountNumber {
   public int hashCode() {
     return Objects.hash(accountNumber);
   }
+  
+  @Override
+  public String toString() {
+    return "AccountNumber{" +
+            "accountNumber='" + accountNumber + '\'' +
+            '}';
+  }
 }
