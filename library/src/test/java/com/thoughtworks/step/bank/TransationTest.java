@@ -11,7 +11,7 @@ public class TransationTest {
   @Test
   public void checkDateOfTransaction() {
     Date date = new Date();
-    Transaction debitTransaction=new DebitTransaction(100,new AccountNumber("1234-5678"),"debit");
+    Transaction debitTransaction=new DebitTransaction(100,new AccountNumber("1234-5678"),"debit",100);
     assertThat(debitTransaction.getDate().toString(),is(date.toString()));
   }
 }

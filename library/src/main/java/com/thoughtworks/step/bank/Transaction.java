@@ -8,12 +8,15 @@ public abstract class Transaction {
   private final double amount;
   private final AccountNumber to;
   private final String type;
+  private final double balance;
   
-  public Transaction(Date date, double amount, AccountNumber to, String type) {
+  
+  public Transaction(Date date, double amount, AccountNumber to, String type, double balance) {
     this.date = date;
     this.amount = amount;
     this.to = to;
     this.type = type;
+    this.balance = balance;
   }
   
   public Date getDate() {
@@ -48,6 +51,7 @@ public abstract class Transaction {
             ", amount=" + amount +
             ", to=" + to +
             ", type='" + type + '\'' +
+            ", balance=" + balance +
             '}';
   }
   
@@ -57,5 +61,9 @@ public abstract class Transaction {
   
   public String getType() {
     return type;
+  }
+  
+  public double getBalance() {
+    return balance;
   }
 }

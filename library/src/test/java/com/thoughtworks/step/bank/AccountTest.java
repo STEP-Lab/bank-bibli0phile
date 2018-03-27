@@ -50,12 +50,12 @@ public class AccountTest {
   @Test
   public void checkCreditTransaction() throws MinimumBalanceException {
     account.credit(10000);
-    assertThat(account.getAllTransactions(),hasItem(new CreditTransaction(new Date(),10000,new AccountNumber("1234-4567"),"credit")));
+    assertThat(account.getAllTransactions(),hasItem(new CreditTransaction(new Date(),10000,new AccountNumber("1234-4567"),"credit",10000)));
   }
   
   @Test
   public void checkDebitTransaction() throws MinimumBalanceException {
     account.debit(1000);
-    assertThat(account.getAllTransactions(),hasItem(new DebitTransaction(new Date(),1000,new AccountNumber("1234-4567"),"debit")));
+    assertThat(account.getAllTransactions(),hasItem(new DebitTransaction(new Date(),1000,new AccountNumber("1234-4567"),"debit",9000)));
   }
 }

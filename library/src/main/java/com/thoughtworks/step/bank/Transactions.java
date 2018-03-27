@@ -12,11 +12,11 @@ public class Transactions {
     this.allTransactions = new ArrayList<>();
   }
   
-  public void debit(double amount, AccountNumber to,String type) {
-    this.allTransactions.add(new DebitTransaction(new Date(), amount,to,type));
+  public void debit(double amount, AccountNumber to,String type,double balance) {
+    this.allTransactions.add(new DebitTransaction(new Date(), amount,to,type,balance));
   }
-  public void credit(double amount, AccountNumber to,String type) {
-    this.allTransactions.add(new CreditTransaction(amount,to,type));
+  public void credit(double amount, AccountNumber to,String type,double balance) {
+    this.allTransactions.add(new CreditTransaction(amount,to,type,balance));
   }
   
   public ArrayList<Transaction> getAllTransactions() {
