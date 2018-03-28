@@ -22,7 +22,11 @@ public class CSVPrinter{
   public void iterateOverTransactions(Transaction transaction) throws IOException {
     writer.append(transaction.getDate().toString());
     writer.append(COMMA_DELIMITER);
-    writer.append(transaction.getType());
+    if (transaction instanceof CreditTransaction){
+      writer.append("credit");
+    } else {
+      writer.append("debit");
+    }
     writer.append(COMMA_DELIMITER);
     writer.append(String.valueOf(transaction.getAmount()));
     writer.append(COMMA_DELIMITER);

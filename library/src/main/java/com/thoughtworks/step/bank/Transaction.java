@@ -7,15 +7,13 @@ public abstract class Transaction {
   private final Date date;
   private final double amount;
   private final AccountNumber to;
-  private final String type;
   private final double balance;
   
   
-  public Transaction(Date date, double amount, AccountNumber to, String type, double balance) {
+  public Transaction(Date date, double amount, AccountNumber to, double balance) {
     this.date = date;
     this.amount = amount;
     this.to = to;
-    this.type = type;
     this.balance = balance;
   }
   
@@ -29,15 +27,15 @@ public abstract class Transaction {
     if (o == null || getClass() != o.getClass()) return false;
     Transaction that = (Transaction) o;
     return Double.compare(that.amount, amount) == 0 &&
+            Double.compare(that.balance, balance) == 0 &&
             Objects.equals(date.toString(), that.date.toString()) &&
-            Objects.equals(to, that.to) &&
-            Objects.equals(type, that.type);
+            Objects.equals(to, that.to);
   }
   
   @Override
   public int hashCode() {
     
-    return Objects.hash(date.toString(), amount, to, type);
+    return Objects.hash(date, amount, to, balance);
   }
   
   public double getAmount() {
@@ -50,17 +48,12 @@ public abstract class Transaction {
             "date=" + date +
             ", amount=" + amount +
             ", to=" + to +
-            ", type='" + type + '\'' +
             ", balance=" + balance +
             '}';
   }
   
   public AccountNumber getSource() {
     return to;
-  }
-  
-  public String getType() {
-    return type;
   }
   
   public double getBalance() {

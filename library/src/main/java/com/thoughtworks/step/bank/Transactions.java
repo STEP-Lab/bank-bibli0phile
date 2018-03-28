@@ -12,11 +12,11 @@ public class Transactions {
     this.allTransactions = new ArrayList<>();
   }
   
-  public void debit(double amount, AccountNumber to,String type,double balance) {
-    this.allTransactions.add(new DebitTransaction(new Date(), amount,to,type,balance));
+  public void debit(double amount, AccountNumber to,double balance) {
+    this.allTransactions.add(new DebitTransaction(new Date(), amount,to,balance));
   }
-  public void credit(double amount, AccountNumber to,String type,double balance) {
-    this.allTransactions.add(new CreditTransaction(amount,to,type,balance));
+  public void credit(double amount, AccountNumber to,double balance) {
+    this.allTransactions.add(new CreditTransaction(amount,to,balance));
   }
   
   public ArrayList<Transaction> getAllTransactions() {
@@ -53,7 +53,7 @@ public class Transactions {
   public Transactions filterAllCreditTransactions() {
     Transactions transactions = new Transactions();
     for (Transaction transaction : allTransactions) {
-      if (transaction.getType().equals("credit")) {
+      if (transaction instanceof CreditTransaction) {
         transactions.allTransactions.add(transaction);
       }
     }
@@ -63,7 +63,7 @@ public class Transactions {
   public Transactions filterAllDebitTransactions() {
     Transactions transactions = new Transactions();
     for (Transaction transaction : allTransactions) {
-      if (transaction.getType().equals("debit")) {
+      if (transaction instanceof DebitTransaction) {
         transactions.allTransactions.add(transaction);
       }
     }
@@ -73,5 +73,35 @@ public class Transactions {
     for(Transaction transaction : allTransactions){
       printer.iterateOverTransactions(transaction);
     }
+  }
+  
+  public Transactions filterAllTransactionsAfterDate(Date date) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : allTransactions) {
+      if (transaction.getDate().after(date)) {
+        transactions.allTransactions.add(transaction);
+      }
+    }
+    return transactions;
+  }
+  
+  public Transactions filterAllTransactionsBeforeDate(Date date) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : allTransactions) {
+      if (transaction.getDate().before(date)) {
+        transactions.allTransactions.add(transaction);
+      }
+    }
+    return transactions;
+  }
+  
+  public Transactions filterAllTransactionsBetween(Date date1, Date date2) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : allTransactions) {
+      if (transaction.getDate().before(date2) && transaction.getDate().after(date1)) {
+        transactions.allTransactions.add(transaction);
+      }
+    }
+    return transactions;
   }
 }
